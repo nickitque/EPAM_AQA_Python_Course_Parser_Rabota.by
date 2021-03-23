@@ -3,6 +3,7 @@ import urllib.request
 
 
 def connect():
+#    assertTrue(x)
     try:
         urllib.request.urlopen('https://rabota.by/')
         return True

@@ -1,21 +1,20 @@
 import requests
 from bs4 import BeautifulSoup
 
+headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
 
-def count_words(url, the_word):
-    r = requests.get(url, allow_redirects=False)
-    soup = BeautifulSoup(r.content, 'lxml')
-    words = soup.find(text=lambda text: text and the_word in text)
-    print(words)
-    return len(words)
+#def finding_the_phrase(header)
+url = 'https://rabota.by/search/vacancy?area=1002&fromSearchLine=true&st=searchVacancy&text=shotgun'
+res = requests.get(url, headers=headers)
+html_page = res.content
+soup = BeautifulSoup(html_page, 'html.parser')
+text = soup.find_all(text="По запросу «shotgun» ничего не найдено")
+output = ''
+blacklist = []
 
+for t in text:
+    if t.parent.name not in blacklist:
+        output = '{} '.format(t)
 
-def main():
-    url = 'https://rabota.by/vacancy/43117128?query=python'
-    word = 'python'
-    count = count_words(url, word)
-    print('\nUrl: {}\ncontains {} occurrences of word: {}'.format(url, count, word))
+print(output)
 
-
-if __name__ == '__main__':
-    main()
