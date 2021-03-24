@@ -15,7 +15,7 @@ class TutByParser:
         return soup
 
     @staticmethod
-    def get_vacancies_urls(jobs_tut_by_url: str, get_all_pages, int):
+    def get_vacancies_urls(url: str, get_all_pages, int):
         urls = []
         for page in get_all_pages():
             response = requests.get(page, headers=headers)
