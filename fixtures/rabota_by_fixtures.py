@@ -48,3 +48,12 @@ def grab_total_vacancies_list():
     pages_links = parserr.get_all_pages(url, num_pages)
     total_vacancies = parserr.get_vacancies_urls(pages_links, headers=parserr.headers, search_word="python")
     return total_vacancies
+
+@pytest.fixture()
+def search_number_of__vacancies():
+    url = parserr.get_url(search_word="python")
+    response = client.get(url, headers=parser.headers)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    vacs = soup.find('h1', attrs={'class': 'bloko-header-1'}).text.split()
+    number = vacs[0]
+    return int(number)
