@@ -16,8 +16,8 @@ def connection_test():
 
 @pytest.fixture()
 def find_shotgun_phrase():
-    url = tut_by.get_url(search_word="shotgun")
-    response = http_cl.get(url, headers=parserr.headers)
+    url = parserr.get_url(search_word="shotgun")
+    response = client.get(url, headers=parserr.headers)
     return response
 
 @pytest.fixture()
