@@ -1,31 +1,32 @@
-"""docstrings"""
-from clients.http_client import HTTPClient
-from models.parser import RabotaByParser
+"""Script to count pages, count keywords on every vacancy and to print average num"""
 
+
+from http_client.http_client import HttpClient
+from models.rabota_parser import RabotaByParser
 header = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_3) AppleWebKit/537.36 (KHTML, like Gecko) "
                         "Chrome/89.0.4389.90 Safari/537.36"}
 
 
 def get_host():
-    """docstring"""
+    """Get Method"""
     return "https://rabota.by"
 
 
 def get_search_url(keyword):
-    """docstring"""
+    """Method with getting url by keyword"""
     return f"https://rabota.by/search/vacancy?area=1002&fromSearchLine=true&st=searchVacancy&text={keyword}"
 
 
 def print_keywords_count_per_vacancy(all_pages_list):
-    """docstring"""
+    """Method to count keys Python, Linux, Flask per vacancy"""
     for page in all_pages_list:
 
-        page_response = HTTPClient.get(get_host() + page, header)
+        page_response = HttpClient.get(get_host() + page, header)
         assert page_response.status_code == 200
 
         page_vacancies_list = RabotaByParser.get_all_page_vacancies(page_response)
         for vacancy_url in page_vacancies_list:
-            vacancy_response = HTTPClient.get(vacancy_url, header)
+            vacancy_response = HttpClient.get(vacancy_url, header)
             assert vacancy_response.status_code == 200
 
             python_keyword_count = RabotaByParser.get_keyword_count(vacancy_response, 'python')
@@ -37,7 +38,7 @@ def print_keywords_count_per_vacancy(all_pages_list):
 
 
 def print_keywords_average_occurrence(all_pages_list):
-    """docstring"""
+    """Method to count average keywords occurence"""
     vacancy_total_count = 0
     dictionary = {
         "python": 0,
@@ -46,12 +47,12 @@ def print_keywords_average_occurrence(all_pages_list):
     }
 
     for page in all_pages_list:
-        page_response = HTTPClient.get(get_host() + page, header)
+        page_response = HttpClient.get(get_host() + page, header)
         assert page_response.status_code == 200
 
         page_vacancies_list = RabotaByParser.get_all_page_vacancies(page_response)
         for vacancy_url in page_vacancies_list:
-            vacancy_response = HTTPClient.get(vacancy_url, header)
+            vacancy_response = HttpClient.get(vacancy_url, header)
             assert vacancy_response.status_code == 200
 
             vacancy_total_count += 1
@@ -65,14 +66,14 @@ def print_keywords_average_occurrence(all_pages_list):
 
 
 def execute():
-    """docstring"""
-    response = HTTPClient.get(get_search_url('shotgun'), header)
+    """Method to execute code and print keywords per vacancy or average num"""
+    response = HttpClient.get(get_search_url('python'), header)
     assert response.status_code == 200
 
     all_pages_list = RabotaByParser.get_vacancies_urls_list(response)
-    print(all_pages_list)
+    #print(all_pages_list)
 
-    # print_keywords_count_per_vacancy(all_pages_list)
+    #print_keywords_count_per_vacancy(all_pages_list)
     print_keywords_average_occurrence(all_pages_list)
 
 
