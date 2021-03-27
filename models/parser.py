@@ -24,7 +24,7 @@ class RabotaByParser:
         return links
 
     @staticmethod
-    def get_all_page_vacancies(response)
+    def get_all_page_vacancies(response):
         """docstring"""
         soup = BeautifulSoup(response.text, 'html.parser')
         a_tags = soup.find_all('a', attrs={"class": "bloko-link HH-LinkModifier"})
