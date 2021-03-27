@@ -1,15 +1,25 @@
+"""Module contains class HTTP client to perform http requests."""
+
 import requests
 
+
 class HTTPClient:
-    """
-    Module with HTTP client.
-    """
-    def get(self, url, params=None, **kwargs):
-        response = requests.get(url, params=params, **kwargs)
+    """ Class with HTTP client."""
+
+    @staticmethod
+    def get(url, headers):
+        """Method for retrieving data."""
+        response = requests.get(url, headers=headers)
         return response
-    def post(self, url, data=None, json=None, **kwargs):
-        response = requests.post(url,data=data, json=json, **kwargs)
+
+    @staticmethod
+    def post(url, data, headers):
+        """This method is used to send entities to a specific resource."""
+        response = requests.post(url, data, headers=headers)
         return response
-    def delete(self, url, **kwargs):
-        response = requests.delete(url, **kwargs)
+
+    @staticmethod
+    def delete(url, headers):
+        """This method removes the specified resource."""
+        response = requests.delete(url, headers=headers)
         return response
