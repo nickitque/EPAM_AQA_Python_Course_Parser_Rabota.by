@@ -1,10 +1,10 @@
 """Module contains class HTTP client to perform http requests."""
 
+
 import requests
 
 
-class HTTPClient:
-    """ Class with HTTP client."""
+class HttpClient:
 
     @staticmethod
     def get(url, headers):
